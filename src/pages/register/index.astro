@@ -1,0 +1,10 @@
+---
+import { RegisterForm } from "@/components/react/register-form";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Login">
+  <div class="flex h-screen items-center justify-center">
+    <RegisterForm className="sm:w-md" client:load />
+  </div>
+</Layout>

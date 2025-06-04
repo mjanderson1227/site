@@ -8,18 +8,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/validators/zod";
 import { z } from "zod";
 import { authClient } from "@/lib/auth-client";
+import { ArrowLeft } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -45,11 +44,11 @@ export function LoginForm({
     password,
     rememberMe,
   }: z.infer<typeof loginSchema>) => {
-    const { error } = await authClient.signIn.email({
+    const { data, error } = await authClient.signIn.email({
       email,
       password,
-      callbackURL: "/",
       rememberMe,
+      callbackURL: "/",
     });
 
     if (error) {
@@ -58,12 +57,20 @@ export function LoginForm({
       });
       return;
     }
+
+    if (data.redirect && data.url) {
+      window.location.href = data.url;
+    }
   };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
+          <a href="/" className="flex gap-2 mb-2 justify-end">
+            <ArrowLeft />
+            <h1>Go back</h1>
+          </a>
           <CardTitle>Login to your account</CardTitle>
           <CardDescription>
             Enter your email below to login to your account
@@ -106,7 +113,7 @@ export function LoginForm({
                         </a>
                       </div>
                       <FormControl>
-                        <Input {...field} id="email" type="email" required />
+                        <Input {...field} type="password" />
                       </FormControl>
                     </FormItem>
                   )}
@@ -114,12 +121,15 @@ export function LoginForm({
                 <div className="flex flex-col gap-3">
                   <FormField
                     control={form.control}
-                    name="password"
+                    name="rememberMe"
                     render={({ field }) => (
                       <FormItem className="grid gap-3">
                         <div className="flex items-center space-x-2">
                           <FormControl>
-                            <Checkbox {...field} />
+                            <Checkbox
+                              onCheckedChange={field.onChange}
+                              checked={field.value}
+                            />
                           </FormControl>
                           <FormLabel className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                             Remember me
@@ -131,7 +141,7 @@ export function LoginForm({
                   <Button type="submit" className="w-full">
                     Login
                   </Button>
-                  <Separator className="my-4 bg-secondary" />
+                  <Separator className="my-1 bg-secondary" />
                   <Button variant="outline" className="w-full">
                     Login with Google
                   </Button>

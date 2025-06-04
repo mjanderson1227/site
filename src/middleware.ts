@@ -1,6 +1,8 @@
 import { auth } from "@/lib/auth";
 import { defineMiddleware } from "astro:middleware";
 
+const publicRoutes = [/\//, /\/login/, /\/register/, /\/api.+/];
+
 export const onRequest = defineMiddleware(async (context, next) => {
   const isAuthed = await auth.api.getSession({
     headers: context.request.headers,
@@ -20,7 +22,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
     context.locals.user = null;
     context.locals.session = null;
 
-    if (!["/", "/login", "/register"].includes(context.url.pathname)) {
+    if (!publicRoutes.some((pattern) => context.url.pathname.match(pattern))) {
       return context.redirect("/");
     }
   }

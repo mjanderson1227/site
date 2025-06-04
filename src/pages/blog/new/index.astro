@@ -1,0 +1,10 @@
+---
+import TailwindEditor from "@/components/react/tailwind-editor";
+import Layout from "@/layouts/Layout.astro"
+---
+
+<Layout navigation>
+	<div class="px-96">
+	<TailwindEditor client:only="react"/>
+	</div>
+</Layout>
