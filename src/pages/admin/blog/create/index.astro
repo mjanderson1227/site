@@ -1,0 +1,15 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { Dashboard } from "@/components/react/dashboard";
+import TailwindEditor from "@/components/react/novel/tailwind-editor";
+
+const sidebarState = Astro.cookies.get("sidebar_state")?.boolean() || true;
+---
+
+<Layout>
+	<Dashboard contentTitle="New Post" sidebarOpen={sidebarState} client:load>
+		<div class="max-w-3xl p-6">
+			<TailwindEditor client:only="react" />
+		</div>
+	</Dashboard>
+</Layout>

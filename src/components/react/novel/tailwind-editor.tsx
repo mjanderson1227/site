@@ -1,6 +1,7 @@
 "use client";
 
 import useDebouncedCallback from "@/lib/hooks/useDebouncedCallback";
+import { Input } from "@/components/ui/input";
 import {
   EditorContent,
   EditorRoot,
@@ -12,16 +13,25 @@ import {
   handleCommandNavigation,
   type EditorInstance,
   type JSONContent,
+  Color,
+  TextStyle,
+  HighlightExtension,
 } from "novel";
 import { LinkSelector } from "./link-selector";
 import { NodeSelector } from "./node-selector";
 import { ColorSelector } from "./color-selector";
 import { TextButtons } from "./text-buttons";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { defaultExtensions } from "@/lib/novel/extensions";
 import { slashCommand, suggestionItems } from "@/lib/novel/suggestions";
 
-const extensions = [...defaultExtensions, slashCommand];
+const extensions = [
+  ...defaultExtensions,
+  slashCommand,
+  Color,
+  TextStyle,
+  HighlightExtension,
+];
 
 interface TailwindEditorProps {
   existingContent?: JSONContent;
@@ -30,6 +40,7 @@ interface TailwindEditorProps {
 export default function TailwindEditor({
   existingContent,
 }: TailwindEditorProps) {
+  const [postTitle, setPostTitle] = useState("Post Title");
   const [content, setContent] = useState(existingContent);
   const [openLink, setOpenLink] = useState(false);
   const [openNode, setOpenNode] = useState(false);
@@ -43,8 +54,15 @@ export default function TailwindEditor({
     1000,
   );
 
+  const handleCreate = () => {};
+
   return (
     <EditorRoot>
+      <Input
+        className="text-2xl font-bold mb-4 ring-0"
+        value={postTitle}
+        onChange={(content) => setPostTitle(content.target.value)}
+      />
       <EditorContent
         initialContent={content}
         onUpdate={handleUpdate}

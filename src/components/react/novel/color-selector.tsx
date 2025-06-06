@@ -7,6 +7,7 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
+
 export interface BubbleColorMenuItem {
   name: string;
   color: string;
@@ -137,10 +138,10 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
             <EditorBubbleItem
               key={index}
               onSelect={() => {
-                editor.commands.unsetColor();
                 name !== "Default" &&
                   editor
                     .chain()
+                    .unsetColor()
                     .focus()
                     .setColor(color || "")
                     .run();

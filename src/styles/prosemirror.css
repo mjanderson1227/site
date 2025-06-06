@@ -1,5 +1,21 @@
 .ProseMirror {
   @apply p-12 px-8 sm:px-12;
+
+  h1 {
+    @apply text-3xl;
+  }
+
+  h2 {
+    @apply text-2xl;
+  }
+
+  h3 {
+    @apply text-xl;
+  }
+
+  p.is-empty {
+    @apply text-muted-foreground;
+  }
 }
 
 .ProseMirror .is-editor-empty:first-child::before {

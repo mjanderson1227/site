@@ -1,8 +1,11 @@
 ---
 import { Dashboard } from "@/components/react/dashboard";
-const sidebarState = Astro.cookies.get("sidebar_state")?.boolean() || false;
+import Layout from "@/layouts/Layout.astro";
+const sidebarState = Astro.cookies.get("sidebar_state")?.boolean() || true;
 ---
 
-<Dashboard client:only="react" sidebarOpen={sidebarState}>
-	<h1>Hi</h1>
-</Dashboard>
+<Layout>
+	<Dashboard client:load sidebarOpen={sidebarState}>
+		<div class="h-full w-full"></div>
+	</Dashboard>
+</Layout>

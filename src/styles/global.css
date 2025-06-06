@@ -1,6 +1,6 @@
 @import "tailwindcss";
+@import "./prosemirror.css";
 @import "tw-animate-css";
-/* @import "prosemirror.css"; */
 
 @custom-variant dark (&:is(.dark *));
 
